@@ -12,3 +12,5 @@ RUN curl -SL https://github.com/snmsts/roswell/archive/release.tar.gz | tar -xzC
 RUN cd /tmp/roswell-release && sh bootstrap && ./configure && make && make install
 
 RUN curl -O https://beta.quicklisp.org/quicklisp.lisp
+
+RUN ros install sbcl-bin
