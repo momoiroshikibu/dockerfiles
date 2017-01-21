@@ -1,16 +1,19 @@
-FROM frolvlad/alpine-glibc
+FROM ubuntu:17.04
 MAINTAINER momoiroshikibu <momoiroshikibu@gmail.com>
 
-RUN apk update \
-    && apk upgrade \
-    && apk add sbcl --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
-    && apk add curl autoconf automake gcc g++ make curl-dev
+RUN apt-get update \
+    && apt-get upgrade -y
 
-RUN curl -O https://github.com/snmsts/roswell/archive/release.tar.gz
+RUN apt-get install -y \
+    build-essential \
+    curl \
+    autotools-dev \
+    automake \
+    libcurl4-gnutls-dev
 
-RUN curl -SL https://github.com/snmsts/roswell/archive/release.tar.gz | tar -xzC /tmp/
-RUN cd /tmp/roswell-release && sh bootstrap && ./configure && make && make install
+RUN curl -SL https://github.com/snmsts/roswell/archive/release.tar.gz \
+    | tar -xzC /tmp/
 
-RUN curl -O https://beta.quicklisp.org/quicklisp.lisp
-
+WORKDIR /tmp/roswell-release
+RUN sh bootstrap && ./configure && make && make install
 RUN ros install sbcl-bin
