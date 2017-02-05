@@ -25,8 +25,7 @@ RUN mv /tmp/dotEmacs/* /root/.emacs.d
 
 WORKDIR /root/.emacs.d
 RUN cask install
-RUN # emacs -batch -f batch-byte-compile init.el && \
-    emacs -batch -f batch-byte-compile inits/*.el
+RUN emacs -batch -f batch-byte-compile inits/*.el; exit 0 #ignore errors
 RUN mkdir -p .auto-save-list && \
     mkdir -p .backups && \
     mkdir -p .cache/auto-complete && \
